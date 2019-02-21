@@ -1,6 +1,7 @@
 package com.ichanskyi.luxoft.entity;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.ichanskyi.luxoft.entity.enums.Position;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -35,8 +36,10 @@ public class Employee extends BaseObject {
     @Enumerated(EnumType.STRING)
     private Position position;
 
+    @JsonIgnore
     @ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "department_id")
     private Department department;
+
 
 }
