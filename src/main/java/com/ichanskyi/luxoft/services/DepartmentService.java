@@ -14,12 +14,12 @@ public class DepartmentService {
     @Autowired
     private DepartmentRepository departmentRepository;
 
-    public void removeDepartmentById(Long id) {
-        departmentRepository.deleteById(id);
+    public List<Department> getAll() {
+        return departmentRepository.findAll();
     }
 
-    public void removeDepartmentWithoutEmployeeById(Long id) {
-        departmentRepository.removeDepartmentWithoutEmployeeById(id);
+    public Department getDepartmentBiId(Long id) {
+        return departmentRepository.getById(id);
     }
 
     public Department saveEmployeeToDepartment(Long idDepartment, Employee employee) {
@@ -28,11 +28,17 @@ public class DepartmentService {
         return departmentRepository.save(department);
     }
 
-    public List<Department> getAll() {
-        return departmentRepository.findAll();
-    }
-
     public Department createDepartment(Department department) {
         return departmentRepository.save(department);
     }
+
+    public void removeDepartmentById(Long id) {
+        departmentRepository.deleteById(id);
+    }
+
+    public void removeDepartmentWithoutEmployeeById(Long id) {
+        departmentRepository.removeDepartmentWithoutEmployeeById(id);
+    }
+
+
 }
