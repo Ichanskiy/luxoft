@@ -30,7 +30,7 @@ public class DepartmentController {
     @GetMapping(value = ControllerAPI.BY_ID)
     public ResponseEntity<Department> getDepartmentById(@PathVariable(name = "id") Long id) throws ParseException {
         log.info("Get department by id = " + id);
-        Department department = departmentService.getDepartmentBiId(id);
+        Department department = departmentService.getDepartmentById(id);
         if (department == null) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
@@ -49,7 +49,7 @@ public class DepartmentController {
     @PutMapping(value = ControllerAPI.GENERAL_REQUEST)
     public ResponseEntity<Department> updateDepartment(@RequestBody Department department) {
         log.info("Update department id = " + department.getId());
-        if (departmentService.getDepartmentBiId(department.getId()) == null) {
+        if (departmentService.getDepartmentById(department.getId()) == null) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
         return new ResponseEntity<>(departmentService.updateDepartment(department), HttpStatus.OK);
