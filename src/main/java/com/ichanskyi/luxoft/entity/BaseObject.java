@@ -17,7 +17,7 @@ import static javax.persistence.GenerationType.AUTO;
 @Getter
 @Setter
 @ToString
-@Accessors(chain = true)
+@Accessors
 @EqualsAndHashCode
 abstract class BaseObject implements Serializable {
 
