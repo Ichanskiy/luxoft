@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.text.ParseException;
 import java.util.List;
 
@@ -28,18 +29,18 @@ public class DepartmentController {
 
     @CrossOrigin
     @GetMapping(value = ControllerAPI.BY_ID)
-    public ResponseEntity<Department> getDepartmentById(@PathVariable(name = "id") Long id) throws ParseException {
+    public ResponseEntity getDepartmentById(@PathVariable(name = "id") Long id) throws ParseException {
         log.info("Get department by id = " + id);
         Department department = departmentService.getDepartmentById(id);
         if (department == null) {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>("Department is null", HttpStatus.BAD_REQUEST);
         }
         return new ResponseEntity<>(department, HttpStatus.OK);
     }
 
     @CrossOrigin
     @PostMapping(value = ControllerAPI.GENERAL_REQUEST)
-    public ResponseEntity<Department> createDepartment(@RequestBody Department department) {
+    public ResponseEntity<Department> createDepartment(@RequestBody @Valid Department department) {
         log.info("Create department");
         System.out.println(department.toString());
         return new ResponseEntity<>(departmentService.createDepartment(department), HttpStatus.OK);
@@ -47,18 +48,21 @@ public class DepartmentController {
 
     @CrossOrigin
     @PutMapping(value = ControllerAPI.GENERAL_REQUEST)
-    public ResponseEntity<Department> updateDepartment(@RequestBody Department department) {
+    public ResponseEntity updateDepartment(@RequestBody @Valid Department department) {
         log.info("Update department id = " + department.getId());
         if (departmentService.getDepartmentById(department.getId()) == null) {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>("Department is null", HttpStatus.BAD_REQUEST);
         }
         return new ResponseEntity<>(departmentService.updateDepartment(department), HttpStatus.OK);
     }
 
     @CrossOrigin
     @DeleteMapping(value = ControllerAPI.BY_ID)
-    public ResponseEntity<Department> removeDepartmentById(@PathVariable(name = "id") Long id) {
+    public ResponseEntity removeDepartmentById(@PathVariable(name = "id") Long id) {
         log.info("Remove department by id = " + id);
+        if (departmentService.getDepartmentById(id) == null) {
+            return new ResponseEntity<>("Department is null", HttpStatus.BAD_REQUEST);
+        }
         departmentService.removeDepartmentById(id);
         return new ResponseEntity<>(HttpStatus.OK);
     }

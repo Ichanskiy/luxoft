@@ -6,9 +6,9 @@ import com.ichanskyi.luxoft.repository.DepartmentRepository;
 import com.ichanskyi.luxoft.repository.EmployeeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-
 
 @Service
 public class EmployeeService {
@@ -23,6 +23,10 @@ public class EmployeeService {
         return employeeRepository.getOne(id);
     }
 
+    public Employee getEmployeeByEmail(String email) {
+        return employeeRepository.getByEmail(email);
+    }
+
     public void removeEmployeeById(Long id) {
         employeeRepository.deleteById(id);
     }
@@ -32,16 +36,39 @@ public class EmployeeService {
     }
 
     public List<Employee> getAllByDepartmentId(Long departmentId) {
-        return employeeRepository.getAllByDepartmentId(departmentId);
+        return employeeRepository.getAllByDepartmentIdOrderById(departmentId);
     }
 
+    @Transactional
     public void createEmployee(Employee employee) {
         Department department = departmentRepository.getById(employee.getDepartment().getId());
         department.addEmployee(employee);
-        departmentRepository.save(department);
     }
 
     public List<Employee> getEmployeeByEmailLike(String email) {
         return employeeRepository.getEmployeeByEmailLike(email);
+    }
+
+    @Transactional
+    public Employee updateEmployee(Employee employee) {
+        Employee employeeDb = employeeRepository.getById(employee.getId());
+        if (isNotExist(employeeDb) || isDuplicateEmail(employee)) {
+            return null;
+        }
+        employeeDb.setEmail(employee.getEmail());
+        employeeDb.setName(employee.getName());
+        employeeDb.setBirthday(employee.getBirthday());
+        employeeDb.setMarried(employee.isMarried());
+        employeeDb.setPosition(employee.getPosition());
+        return employeeDb;
+    }
+
+    private boolean isDuplicateEmail(Employee employee) {
+        Employee employeeByEmail = employeeRepository.getByEmail(employee.getEmail());
+        return employeeByEmail != null && !employeeByEmail.getId().equals(employee.getId());
+    }
+
+    private boolean isNotExist(Employee employee) {
+        return employee == null;
     }
 }

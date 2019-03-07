@@ -5,6 +5,7 @@ import com.ichanskyi.luxoft.entity.Employee;
 import com.ichanskyi.luxoft.repository.DepartmentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -40,11 +41,11 @@ public class DepartmentService {
         departmentRepository.removeDepartmentWithoutEmployeeById(id);
     }
 
+    @Transactional
     public Department updateDepartment(Department department) {
         Department departmentDb = departmentRepository.getById(department.getId());
         departmentDb.setAddress(department.getAddress());
         departmentDb.setName(department.getName());
-        return departmentRepository.save(departmentDb);
-
+        return departmentDb;
     }
 }

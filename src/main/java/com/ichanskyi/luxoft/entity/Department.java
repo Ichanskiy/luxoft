@@ -1,6 +1,7 @@
 package com.ichanskyi.luxoft.entity;
 
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
@@ -25,6 +26,7 @@ public class Department extends BaseObject {
     @Column(name = "address")
     private String address;
 
+    @JsonBackReference
     @OneToMany(mappedBy = "department",
             cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH},
             orphanRemoval = true)
