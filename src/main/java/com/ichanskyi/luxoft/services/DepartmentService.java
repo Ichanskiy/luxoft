@@ -15,7 +15,7 @@ public class DepartmentService {
     private DepartmentRepository departmentRepository;
 
     public List<Department> getAll() {
-        return departmentRepository.findAll();
+        return departmentRepository.findAllByOrderByIdAsc();
     }
 
     public Department getDepartmentById(Long id) {
@@ -40,8 +40,11 @@ public class DepartmentService {
         departmentRepository.removeDepartmentWithoutEmployeeById(id);
     }
 
-
     public Department updateDepartment(Department department) {
-        return new Department();
+        Department departmentDb = departmentRepository.getById(department.getId());
+        departmentDb.setAddress(department.getAddress());
+        departmentDb.setName(department.getName());
+        return departmentRepository.save(departmentDb);
+
     }
 }
