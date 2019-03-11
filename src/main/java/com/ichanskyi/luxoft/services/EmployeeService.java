@@ -63,7 +63,7 @@ public class EmployeeService {
         return employeeDb;
     }
 
-    private boolean isDuplicateEmail(Employee employee) {
+    boolean isDuplicateEmail(Employee employee) {
         Employee employeeByEmail = employeeRepository.getByEmail(employee.getEmail());
         return employeeByEmail != null && !employeeByEmail.getId().equals(employee.getId());
     }
