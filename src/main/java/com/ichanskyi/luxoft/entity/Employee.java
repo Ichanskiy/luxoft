@@ -37,9 +37,7 @@ public class Employee extends BaseObject {
     private Position position;
 
     @JsonBackReference
-    @ManyToOne(cascade = CascadeType.PERSIST)
+    @ManyToOne
     @JoinColumn(name = "department_id")
     private Department department;
-
-
 }

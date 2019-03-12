@@ -9,7 +9,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.text.ParseException;
 import java.util.List;
 
 @RestController
@@ -29,7 +28,7 @@ public class DepartmentController {
 
     @CrossOrigin
     @GetMapping(value = ControllerAPI.BY_ID)
-    public ResponseEntity getDepartmentById(@PathVariable(name = "id") Long id) throws ParseException {
+    public ResponseEntity getDepartmentById(@PathVariable(name = "id") Long id) {
         log.info("Get department by id = " + id);
         Department department = departmentService.getDepartmentById(id);
         if (department == null) {

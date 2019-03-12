@@ -11,7 +11,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.List;
 
 @RestController
 @RequestMapping(ControllerAPI.EMPLOYEE_CONTROLLER)
@@ -23,13 +22,6 @@ public class EmployeeController {
 
     @Autowired
     private DepartmentService departmentService;
-
-    @CrossOrigin
-    @GetMapping(value = ControllerAPI.ALL)
-    public ResponseEntity<List<Employee>> getAllEmployees() {
-        log.info("Get all employee");
-        return new ResponseEntity<>(employeeService.getAll(), HttpStatus.OK);
-    }
 
     @CrossOrigin
     @GetMapping(value = ControllerAPI.BY_ID)

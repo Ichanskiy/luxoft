@@ -71,14 +71,14 @@ class EmployeeServiceTest {
     @Test
     @DisplayName("Update employee valid")
     void updateEmployeeTest() {
-        Employee employee = employeeRepository.getById(employeeGlobal.getId());
+        Employee employee = employeeRepository.getOne(employeeGlobal.getId());
         employee.setName(NAME_NEW);
         employee.setMarried(!IS_MARRIED);
         employee.setEmail(EMAIL_NEW_FIRST);
         employee.setPosition(POSITION_NEW);
         employeeService.updateEmployee(employee);
 
-        Employee employeeAfterUpdate = employeeRepository.getById(employee.getId());
+        Employee employeeAfterUpdate = employeeRepository.getOne(employee.getId());
         assertEquals(employeeAfterUpdate.getId(), employeeAfterUpdate.getId());
         assertNotNull(employeeAfterUpdate.getBirthday());
         assertEquals(employeeAfterUpdate.getName(), NAME_NEW);
@@ -95,7 +95,7 @@ class EmployeeServiceTest {
         Employee employeeDb = employeeRepository
                 .save(new Employee()
                         .setEmail(emailNew));
-        employeeDb.setDepartment(departmentRepository.getById(departmentGlobal.getId()));
+        employeeDb.setDepartment(departmentRepository.getOne(departmentGlobal.getId()));
         employeeRepository.save(employeeDb);
         assertFalse(employeeService.isDuplicateEmail(employeeDb));
     }

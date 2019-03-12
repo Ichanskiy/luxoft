@@ -7,8 +7,4 @@ import java.util.List;
 
 public interface EmployeeRepository extends JpaRepository<Employee, Long>, EmployeeRepositoryCustom {
     List<Employee> getAllByDepartmentIdOrderById(Long departmentId);
-
-    Employee getByEmail(String email);
-
-    Employee getById(Long id);
 }

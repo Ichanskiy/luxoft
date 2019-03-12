@@ -49,12 +49,12 @@ class DepartmentServiceTest {
     @Test
     @DisplayName("Update Department")
     void updateDepartmentTest() {
-        Department department = departmentRepository.getById(departmentGlobal.getId());
+        Department department = departmentRepository.getOne(departmentGlobal.getId());
         department.setName(NAME_NEW);
         department.setAddress(ADDRESS_NEW);
         departmentService.updateDepartment(department);
 
-        Department departmentAfterUpdate = departmentRepository.getById(department.getId());
+        Department departmentAfterUpdate = departmentRepository.getOne(department.getId());
         assertEquals(departmentAfterUpdate.getId(), department.getId());
         assertEquals(departmentAfterUpdate.getName(), NAME_NEW);
         assertEquals(departmentAfterUpdate.getAddress(), ADDRESS_NEW);

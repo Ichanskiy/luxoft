@@ -27,9 +27,7 @@ public class Department extends BaseObject {
     private String address;
 
     @JsonBackReference
-    @OneToMany(mappedBy = "department",
-            cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH},
-            orphanRemoval = true)
+    @OneToMany(mappedBy = "department", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Employee> employees = new ArrayList<>();
 
     public void addEmployee(Employee employee) {
@@ -41,5 +39,4 @@ public class Department extends BaseObject {
         employee.setDepartment(null);
         employees.remove(employee);
     }
-
 }

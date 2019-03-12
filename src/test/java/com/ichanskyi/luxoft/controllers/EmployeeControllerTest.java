@@ -54,23 +54,6 @@ class EmployeeControllerTest {
     }
 
     @Test
-    @DisplayName("Get all Employees")
-    void getAllEmployeesTest() throws Exception {
-        String request = EMPLOYEE_CONTROLLER + ALL;
-        when(employeeService.getAll()).thenReturn(new ArrayList<>());
-        MockHttpServletResponse response = mockMvc
-                .perform(get(request))
-                .andExpect(status().isOk())
-                .andReturn()
-                .getResponse();
-        assertNotEquals(response.getContentAsString(), Strings.EMPTY);
-        verify(employeeService, times(1))
-                .getAll();
-        verifyNoMoreInteractions(employeeService);
-    }
-
-
-    @Test
     @DisplayName("Get Employee by id valid")
     void getEmployeeByIdTest() throws Exception {
         String request = EMPLOYEE_CONTROLLER + BY_ID;

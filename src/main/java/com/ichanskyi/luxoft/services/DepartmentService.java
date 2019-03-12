@@ -1,7 +1,6 @@
 package com.ichanskyi.luxoft.services;
 
 import com.ichanskyi.luxoft.entity.Department;
-import com.ichanskyi.luxoft.entity.Employee;
 import com.ichanskyi.luxoft.repository.DepartmentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,13 +19,7 @@ public class DepartmentService {
     }
 
     public Department getDepartmentById(Long id) {
-        return departmentRepository.getById(id);
-    }
-
-    public Department saveEmployeeToDepartment(Long idDepartment, Employee employee) {
-        Department department = departmentRepository.getOne(idDepartment);
-        department.addEmployee(employee);
-        return departmentRepository.save(department);
+        return departmentRepository.getOne(id);
     }
 
     public Department createDepartment(Department department) {
@@ -37,13 +30,9 @@ public class DepartmentService {
         departmentRepository.deleteById(id);
     }
 
-    public void removeDepartmentWithoutEmployeeById(Long id) {
-        departmentRepository.removeDepartmentWithoutEmployeeById(id);
-    }
-
     @Transactional
     public Department updateDepartment(Department department) {
-        Department departmentDb = departmentRepository.getById(department.getId());
+        Department departmentDb = departmentRepository.getOne(department.getId());
         departmentDb.setAddress(department.getAddress());
         departmentDb.setName(department.getName());
         return departmentDb;

@@ -24,15 +24,11 @@ public class EmployeeService {
     }
 
     public Employee getEmployeeByEmail(String email) {
-        return employeeRepository.getByEmail(email);
+        return employeeRepository.getEmployeeByEmail(email);
     }
 
     public void removeEmployeeById(Long id) {
         employeeRepository.deleteById(id);
-    }
-
-    public List<Employee> getAll() {
-        return employeeRepository.findAll();
     }
 
     public List<Employee> getAllByDepartmentId(Long departmentId) {
@@ -41,17 +37,13 @@ public class EmployeeService {
 
     @Transactional
     public void createEmployee(Employee employee) {
-        Department department = departmentRepository.getById(employee.getDepartment().getId());
+        Department department = departmentRepository.getOne(employee.getDepartment().getId());
         department.addEmployee(employee);
-    }
-
-    public List<Employee> getEmployeeByEmailLike(String email) {
-        return employeeRepository.getEmployeeByEmailLike(email);
     }
 
     @Transactional
     public Employee updateEmployee(Employee employee) {
-        Employee employeeDb = employeeRepository.getById(employee.getId());
+        Employee employeeDb = employeeRepository.getOne(employee.getId());
         if (isNotExist(employeeDb) || isDuplicateEmail(employee)) {
             return null;
         }
@@ -64,7 +56,7 @@ public class EmployeeService {
     }
 
     boolean isDuplicateEmail(Employee employee) {
-        Employee employeeByEmail = employeeRepository.getByEmail(employee.getEmail());
+        Employee employeeByEmail = employeeRepository.getEmployeeByEmail(employee.getEmail());
         return employeeByEmail != null && !employeeByEmail.getId().equals(employee.getId());
     }
 
