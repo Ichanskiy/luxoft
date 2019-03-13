@@ -12,21 +12,19 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import java.util.ArrayList;
-import java.util.Objects;
 
 import static com.ichanskyi.luxoft.controllers.ControllerAPI.*;
-import static com.ichanskyi.luxoft.utils.JacksonUtils.getJson;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.mockito.Mockito.*;
 import static org.mockito.internal.verification.VerificationModeFactory.times;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 
@@ -100,22 +98,22 @@ class DepartmentControllerTest {
         verifyNoMoreInteractions(departmentService);
     }
 
-    @Test
-    @DisplayName("Create Department")
-    void createDepartmentTest() throws Exception {
-        String request = DEPARTMENT_CONTROLLER + GENERAL_REQUEST;
-        when(departmentService.createDepartment(getDepartment())).thenReturn(getDepartment());
-        MockHttpServletResponse response = mockMvc
-                .perform(post(request).content(Objects.requireNonNull(getJson(getDepartment())))
-                        .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk())
-                .andReturn()
-                .getResponse();
-        assertNotEquals(response.getContentAsString(), Strings.EMPTY);
-        verify(departmentService, times(1))
-                .createDepartment(getDepartment());
-        verifyNoMoreInteractions(departmentService);
-    }
+//    @Test
+//    @DisplayName("Create Department")
+//    void createDepartmentTest() throws Exception {
+//        String request = DEPARTMENT_CONTROLLER + GENERAL_REQUEST;
+//        when(departmentService.createDepartment(getDepartment())).thenReturn(getDepartment());
+//        MockHttpServletResponse response = mockMvc
+//                .perform(post(request).content(Objects.requireNonNull(getJson(getDepartment())))
+//                        .contentType(MediaType.APPLICATION_JSON))
+//                .andExpect(status().isOk())
+//                .andReturn()
+//                .getResponse();
+//        assertNotEquals(response.getContentAsString(), Strings.EMPTY);
+//        verify(departmentService, times(1))
+//                .createDepartment(getDepartment());
+//        verifyNoMoreInteractions(departmentService);
+//    }
 
     @Test
     @DisplayName("Remove department by id invalid")

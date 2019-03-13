@@ -11,8 +11,12 @@ import java.util.List;
 @Service
 public class DepartmentService {
 
+    private final DepartmentRepository departmentRepository;
+
     @Autowired
-    private DepartmentRepository departmentRepository;
+    public DepartmentService(DepartmentRepository departmentRepository) {
+        this.departmentRepository = departmentRepository;
+    }
 
     public List<Department> getAll() {
         return departmentRepository.findAllByOrderByIdAsc();
@@ -22,19 +26,28 @@ public class DepartmentService {
         return departmentRepository.getOne(id);
     }
 
-    public Department createDepartment(Department department) {
+    public boolean isNotExist(Long id) {
+        return !departmentRepository.existsById(id);
+    }
+
+    @Transactional
+    public Department saveDepartment(Department department) {
+        return department.getId() == null ? createDepartment(department) : updateDepartment(department);
+    }
+
+    private Department createDepartment(Department department) {
         return departmentRepository.save(department);
+    }
+
+    private Department updateDepartment(Department department) {
+        Department departmentDb = departmentRepository.getOne(department.getId());
+        departmentDb.setAddress(department.getAddress());
+        departmentDb.setName(department.getName());
+        return departmentDb;
     }
 
     public void removeDepartmentById(Long id) {
         departmentRepository.deleteById(id);
     }
 
-    @Transactional
-    public Department updateDepartment(Department department) {
-        Department departmentDb = departmentRepository.getOne(department.getId());
-        departmentDb.setAddress(department.getAddress());
-        departmentDb.setName(department.getName());
-        return departmentDb;
-    }
 }

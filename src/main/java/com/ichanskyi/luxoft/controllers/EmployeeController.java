@@ -1,6 +1,5 @@
 package com.ichanskyi.luxoft.controllers;
 
-import com.ichanskyi.luxoft.entity.Department;
 import com.ichanskyi.luxoft.entity.Employee;
 import com.ichanskyi.luxoft.services.DepartmentService;
 import com.ichanskyi.luxoft.services.EmployeeService;
@@ -17,11 +16,14 @@ import javax.validation.Valid;
 @Slf4j
 public class EmployeeController {
 
-    @Autowired
-    private EmployeeService employeeService;
+    private final EmployeeService employeeService;
+    private final DepartmentService departmentService;
 
     @Autowired
-    private DepartmentService departmentService;
+    public EmployeeController(EmployeeService employeeService, DepartmentService departmentService) {
+        this.employeeService = employeeService;
+        this.departmentService = departmentService;
+    }
 
     @CrossOrigin
     @GetMapping(value = ControllerAPI.BY_ID)
@@ -46,29 +48,16 @@ public class EmployeeController {
 
     @CrossOrigin
     @PostMapping(value = ControllerAPI.GENERAL_REQUEST)
-    public ResponseEntity createEmployee(@RequestBody @Valid Employee employee) {
+    public ResponseEntity saveEmployee(@RequestBody @Valid Employee employee) {
         log.info("Create employee");
-        Employee employeeDb = employeeService.getEmployeeByEmail(employee.getEmail());
-        if (employeeDb != null) {
-            return new ResponseEntity<>("Duplicate email", HttpStatus.BAD_REQUEST);
-        }
-        Department department = departmentService.getDepartmentById(employee.getDepartment().getId());
-        if (department == null) {
+        if (departmentService.isNotExist(employee.getDepartment().getId())) {
             return new ResponseEntity<>("Department is null", HttpStatus.BAD_REQUEST);
         }
-        employeeService.createEmployee(employee);
-        return new ResponseEntity<>(HttpStatus.OK);
-    }
-
-    @CrossOrigin
-    @PutMapping(value = ControllerAPI.GENERAL_REQUEST)
-    public ResponseEntity updateEmployee(@RequestBody @Valid Employee employee) {
-        log.info("Update employee");
-        Employee updatedEmployee = employeeService.updateEmployee(employee);
-        if (updatedEmployee == null) {
+        Employee employeeDb = employeeService.saveEmployee(employee);
+        if (employeeDb == null) {
             return new ResponseEntity<>("Duplicate email", HttpStatus.BAD_REQUEST);
         }
-        return new ResponseEntity<>(updatedEmployee, HttpStatus.OK);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @CrossOrigin

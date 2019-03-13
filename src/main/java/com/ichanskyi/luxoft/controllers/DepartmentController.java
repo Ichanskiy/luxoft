@@ -16,8 +16,12 @@ import java.util.List;
 @Slf4j
 public class DepartmentController {
 
+    private final DepartmentService departmentService;
+
     @Autowired
-    private DepartmentService departmentService;
+    public DepartmentController(DepartmentService departmentService) {
+        this.departmentService = departmentService;
+    }
 
     @CrossOrigin
     @GetMapping(value = ControllerAPI.ALL)
@@ -39,27 +43,15 @@ public class DepartmentController {
 
     @CrossOrigin
     @PostMapping(value = ControllerAPI.GENERAL_REQUEST)
-    public ResponseEntity<Department> createDepartment(@RequestBody @Valid Department department) {
-        log.info("Create department");
-        System.out.println(department.toString());
-        return new ResponseEntity<>(departmentService.createDepartment(department), HttpStatus.OK);
-    }
-
-    @CrossOrigin
-    @PutMapping(value = ControllerAPI.GENERAL_REQUEST)
-    public ResponseEntity updateDepartment(@RequestBody @Valid Department department) {
-        log.info("Update department id = " + department.getId());
-        if (departmentService.getDepartmentById(department.getId()) == null) {
-            return new ResponseEntity<>("Department is null", HttpStatus.BAD_REQUEST);
-        }
-        return new ResponseEntity<>(departmentService.updateDepartment(department), HttpStatus.OK);
+    public ResponseEntity saveDepartment(@RequestBody @Valid Department department) {
+        return new ResponseEntity<>(departmentService.saveDepartment(department), HttpStatus.OK);
     }
 
     @CrossOrigin
     @DeleteMapping(value = ControllerAPI.BY_ID)
     public ResponseEntity removeDepartmentById(@PathVariable(name = "id") Long id) {
         log.info("Remove department by id = " + id);
-        if (departmentService.getDepartmentById(id) == null) {
+        if (departmentService.isNotExist(id)) {
             return new ResponseEntity<>("Department is null", HttpStatus.BAD_REQUEST);
         }
         departmentService.removeDepartmentById(id);
