@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping(ControllerAPI.DEPARTMENT_CONTROLLER)
@@ -34,8 +35,8 @@ public class DepartmentController {
     @GetMapping(value = ControllerAPI.BY_ID)
     public ResponseEntity getDepartmentById(@PathVariable(name = "id") Long id) {
         log.info("Get department by id = " + id);
-        Department department = departmentService.getDepartmentById(id);
-        if (department == null) {
+        Optional<Department> department = departmentService.getDepartmentById(id);
+        if (!department.isPresent()) {
             return new ResponseEntity<>("Department is null", HttpStatus.BAD_REQUEST);
         }
         return new ResponseEntity<>(department, HttpStatus.OK);

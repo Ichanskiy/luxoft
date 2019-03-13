@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Transactional(readOnly = true)
@@ -19,9 +20,13 @@ public class EmployeeService {
         this.employeeRepository = employeeRepository;
     }
 
+    public boolean isNotExist(Long id) {
+        return !employeeRepository.existsById(id);
+    }
+
     @Transactional
-    public Employee getEmployeeById(Long id) {
-        return employeeRepository.getOne(id);
+    public Optional<Employee> getEmployeeById(Long id) {
+        return employeeRepository.findById(id);
     }
 
     public List<Employee> getAllByDepartmentId(Long departmentId) {
@@ -33,36 +38,33 @@ public class EmployeeService {
     }
 
     @Transactional
-    public Employee saveEmployee(Employee employee) {
+    public Optional<Employee> saveEmployee(Employee employee) {
         if (isDuplicateEmail(employee)) {
-            return null;
+            return Optional.empty();
         }
         return employee.getId() == null ? createEmployee(employee) : updateEmployee(employee);
     }
 
-    private Employee createEmployee(Employee employee) {
-        return employeeRepository.save(employee);
+    private Optional<Employee> createEmployee(Employee employee) {
+        return Optional.of(employeeRepository.save(employee));
     }
 
-    Employee updateEmployee(Employee employee) {
-        Employee employeeDb = employeeRepository.getOne(employee.getId());
-        if (isNotExist(employeeDb)) {
-            return null;
+    Optional<Employee> updateEmployee(Employee employee) {
+        Optional<Employee> employeeOptional = employeeRepository.findById(employee.getId());
+        if (!employeeOptional.isPresent()) {
+            return Optional.empty();
         }
+        Employee employeeDb = employeeOptional.get();
         employeeDb.setEmail(employee.getEmail());
         employeeDb.setName(employee.getName());
         employeeDb.setBirthday(employee.getBirthday());
         employeeDb.setMarried(employee.isMarried());
         employeeDb.setPosition(employee.getPosition());
-        return employeeDb;
+        return Optional.of(employeeDb);
     }
 
     boolean isDuplicateEmail(Employee employee) {
         Employee employeeByEmail = employeeRepository.getEmployeeByEmail(employee.getEmail());
         return employeeByEmail != null && !employeeByEmail.getId().equals(employee.getId());
-    }
-
-    private boolean isNotExist(Employee employee) {
-        return employee == null;
     }
 }

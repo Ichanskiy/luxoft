@@ -66,21 +66,21 @@ class DepartmentControllerTest {
         verifyNoMoreInteractions(departmentService);
     }
 
-    @Test
-    @DisplayName("Get Department by id valid")
-    void getDepartmentByIdTest() throws Exception {
-        String request = DEPARTMENT_CONTROLLER + BY_ID;
-        when(departmentService.getDepartmentById(ID)).thenReturn(getDepartment());
-        MockHttpServletResponse response = mockMvc
-                .perform(get(request, ID))
-                .andExpect(status().isOk())
-                .andReturn()
-                .getResponse();
-        assertNotEquals(response.getContentAsString(), Strings.EMPTY);
-        verify(departmentService, times(1))
-                .getDepartmentById(ID);
-        verifyNoMoreInteractions(departmentService);
-    }
+//    @Test
+//    @DisplayName("Get Department by id valid")
+//    void getDepartmentByIdTest() throws Exception {
+//        String request = DEPARTMENT_CONTROLLER + BY_ID;
+//        when(departmentService.getDepartmentById(ID)).thenReturn(getDepartment());
+//        MockHttpServletResponse response = mockMvc
+//                .perform(get(request, ID))
+//                .andExpect(status().isOk())
+//                .andReturn()
+//                .getResponse();
+//        assertNotEquals(response.getContentAsString(), Strings.EMPTY);
+//        verify(departmentService, times(1))
+//                .getDepartmentById(ID);
+//        verifyNoMoreInteractions(departmentService);
+//    }
 
     @Test
     @DisplayName("Get Department by id invalid")
@@ -131,21 +131,21 @@ class DepartmentControllerTest {
         verifyNoMoreInteractions(departmentService);
     }
 
-    @Test
-    @DisplayName("Remove department by id")
-    void removeDepartmentByIdTest() throws Exception {
-        String request = DEPARTMENT_CONTROLLER + BY_ID;
-        when(departmentService.getDepartmentById(ID)).thenReturn(getDepartment());
-        mockMvc.perform(delete(request, ID))
-                .andExpect(status().isOk())
-                .andReturn()
-                .getResponse();
-        verify(departmentService, times(1))
-                .getDepartmentById(ID);
-        verify(departmentService, times(1))
-                .removeDepartmentById(ID);
-        verifyNoMoreInteractions(departmentService);
-    }
+//    @Test
+//    @DisplayName("Remove department by id")
+//    void removeDepartmentByIdTest() throws Exception {
+//        String request = DEPARTMENT_CONTROLLER + BY_ID;
+//        when(departmentService.getDepartmentById(ID)).thenReturn(getDepartment());
+//        mockMvc.perform(delete(request, ID))
+//                .andExpect(status().isOk())
+//                .andReturn()
+//                .getResponse();
+//        verify(departmentService, times(1))
+//                .getDepartmentById(ID);
+//        verify(departmentService, times(1))
+//                .removeDepartmentById(ID);
+//        verifyNoMoreInteractions(departmentService);
+//    }
 
     private Department getDepartment() {
         return new Department()

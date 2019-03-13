@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Transactional(readOnly = true)
@@ -19,17 +20,17 @@ public class DepartmentService {
         this.departmentRepository = departmentRepository;
     }
 
+    public boolean isNotExist(Long id) {
+        return !departmentRepository.existsById(id);
+    }
+
     public List<Department> getAll() {
         return departmentRepository.findAllByOrderByIdAsc();
     }
 
     @Transactional
-    public Department getDepartmentById(Long id) {
-        return departmentRepository.getOne(id);
-    }
-
-    public boolean isNotExist(Long id) {
-        return !departmentRepository.existsById(id);
+    public Optional<Department> getDepartmentById(Long id) {
+        return departmentRepository.findById(id);
     }
 
     @Transactional
