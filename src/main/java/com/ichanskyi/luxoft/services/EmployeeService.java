@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 @Service
+@Transactional(readOnly = true)
 public class EmployeeService {
 
     private final EmployeeRepository employeeRepository;
@@ -18,6 +19,7 @@ public class EmployeeService {
         this.employeeRepository = employeeRepository;
     }
 
+    @Transactional
     public Employee getEmployeeById(Long id) {
         return employeeRepository.getOne(id);
     }

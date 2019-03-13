@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 @Service
+@Transactional(readOnly = true)
 public class DepartmentService {
 
     private final DepartmentRepository departmentRepository;
@@ -22,6 +23,7 @@ public class DepartmentService {
         return departmentRepository.findAllByOrderByIdAsc();
     }
 
+    @Transactional
     public Department getDepartmentById(Long id) {
         return departmentRepository.getOne(id);
     }
