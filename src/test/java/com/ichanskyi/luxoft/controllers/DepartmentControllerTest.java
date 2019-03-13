@@ -1,6 +1,5 @@
 package com.ichanskyi.luxoft.controllers;
 
-import com.ichanskyi.luxoft.entity.Department;
 import com.ichanskyi.luxoft.services.DepartmentService;
 import org.apache.logging.log4j.util.Strings;
 import org.junit.jupiter.api.BeforeEach;
@@ -147,10 +146,10 @@ class DepartmentControllerTest {
 //        verifyNoMoreInteractions(departmentService);
 //    }
 
-    private Department getDepartment() {
-        return new Department()
-                .setAddress(ADDRESS)
-                .setName(NAME)
-                .setEmployees(new ArrayList<>());
-    }
+//    private Department getDepartment() {
+//        return new Department()
+//                .setAddress(ADDRESS)
+//                .setName(NAME)
+//                .setEmployees(new ArrayList<>());
+//    }
 }

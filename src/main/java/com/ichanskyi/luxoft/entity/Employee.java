@@ -2,10 +2,10 @@ package com.ichanskyi.luxoft.entity;
 
 
 import com.ichanskyi.luxoft.entity.enums.Position;
-import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.experimental.Accessors;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -13,8 +13,8 @@ import java.util.Date;
 
 @Entity
 @Table(name = "employee")
-@Data
-@Accessors(chain = true)
+@Getter
+@Setter
 @EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
 public class Employee extends BaseObject {
@@ -35,7 +35,7 @@ public class Employee extends BaseObject {
     @Enumerated(EnumType.STRING)
     private Position position;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "department_id")
     private Department department;
 }

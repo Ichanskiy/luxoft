@@ -17,9 +17,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-import java.util.Date;
-
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 @SpringBootTest
 @ExtendWith(SpringExtension.class)
@@ -49,18 +48,18 @@ class EmployeeServiceTest {
 
     @BeforeEach
     void setUp() {
-        employeeGlobal = employeeRepository
-                .save(new Employee()
-                        .setBirthday(new Date())
-                        .setEmail(EMAIL_OLD)
-                        .setName(NAME_OLD)
-                        .setMarried(IS_MARRIED)
-                        .setPosition(POSITION_OLD));
-        departmentGlobal = departmentRepository
-                .save(new Department()
-                        .setName(NAME_OLD));
-        departmentGlobal.addEmployee(employeeGlobal);
-        departmentRepository.save(departmentGlobal);
+//        employeeGlobal = employeeRepository
+//                .save(new Employee()
+//                        .setBirthday(new Date())
+//                        .setEmail(EMAIL_OLD)
+//                        .setName(NAME_OLD)
+//                        .setMarried(IS_MARRIED)
+//                        .setPosition(POSITION_OLD));
+//        departmentGlobal = departmentRepository
+//                .save(new Department()
+//                        .setName(NAME_OLD));
+//        departmentGlobal.addEmployee(employeeGlobal);
+//        departmentRepository.save(departmentGlobal);
     }
 
     @AfterEach
@@ -76,7 +75,7 @@ class EmployeeServiceTest {
         employee.setMarried(!IS_MARRIED);
         employee.setEmail(EMAIL_NEW_FIRST);
         employee.setPosition(POSITION_NEW);
-        employeeService.updateEmployee(employee);
+        employeeService.saveEmployee(employee);
 
         Employee employeeAfterUpdate = employeeRepository.getOne(employee.getId());
         assertEquals(employeeAfterUpdate.getId(), employeeAfterUpdate.getId());
@@ -92,11 +91,11 @@ class EmployeeServiceTest {
     @ParameterizedTest(name = "run #{index} with [{arguments}]")
     @CsvSource({EMAIL_NEW_FIRST, EMAIL_NEW_SECOND})
     void isDuplicateEmailTest(String emailNew) {
-        Employee employeeDb = employeeRepository
-                .save(new Employee()
-                        .setEmail(emailNew));
-        employeeDb.setDepartment(departmentRepository.getOne(departmentGlobal.getId()));
-        employeeRepository.save(employeeDb);
-        assertFalse(employeeService.isDuplicateEmail(employeeDb));
+//        Employee employeeDb = employeeRepository
+//                .save(new Employee()
+//                        .setEmail(emailNew));
+//        employeeDb.setDepartment(departmentRepository.getOne(departmentGlobal.getId()));
+//        employeeRepository.save(employeeDb);
+//        assertFalse(employeeService.isDuplicateEmail(employeeDb));
     }
 }

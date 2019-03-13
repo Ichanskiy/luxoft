@@ -1,11 +1,10 @@
 package com.ichanskyi.luxoft.entity;
 
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.experimental.Accessors;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -14,8 +13,8 @@ import java.util.List;
 
 @Entity
 @Table(name = "department")
-@Data
-@Accessors(chain = true)
+@Getter
+@Setter
 @EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
 public class Department extends BaseObject {
@@ -26,7 +25,6 @@ public class Department extends BaseObject {
     @Column(name = "address")
     private String address;
 
-    @JsonBackReference
     @OneToMany(mappedBy = "department", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Employee> employees = new ArrayList<>();
 

@@ -30,10 +30,10 @@ class DepartmentServiceTest {
 
     @BeforeEach
     void setUp() {
-        departmentGlobal = departmentRepository
-                .save(new Department()
-                        .setAddress(ADDRESS_OLD)
-                        .setName(NAME_OLD));
+//        departmentGlobal = departmentRepository
+//                .save(new Department()
+//                        .setAddress(ADDRESS_OLD)
+//                        .setName(NAME_OLD));
     }
 
     @AfterEach
